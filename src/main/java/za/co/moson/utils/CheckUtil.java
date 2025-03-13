@@ -10,7 +10,8 @@ public class CheckUtil {
         return ObjectUtils.isEmpty(object);
     }
 
-    public boolean isNotEmpty(Object object) {
-        return !ObjectUtils.isEmpty(object);
+    public boolean equals(Object object1, Object object2) {
+        return ObjectUtils.nullSafeEquals(object1, object2);
     }
+
 }

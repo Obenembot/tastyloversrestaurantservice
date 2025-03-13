@@ -40,7 +40,4 @@ public class User extends MultiEntity implements Serializable {
     @Column(nullable = false)
     private String zoneId;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Restaurant> restaurants; // A user can own multiple restaurants
-
 }

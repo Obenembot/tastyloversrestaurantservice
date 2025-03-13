@@ -42,18 +42,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) throws UserException {
         logger.info("[{}] [{}] [create()] create user {}", Constants.SERVICE_NAME, Constants.INFO, user);
-        if (this.checkUtil.isEmpty(user)) {
-            throw new UserException("Invalid User Object", 400);
-        }
+
         if (user.getId() > 0) {
             throw new UserException("Invalid User ID. Cannot create new user with id: " + user.getEmail(), 400);
         } else {
             user.setId(null);
         }
         // Validate Email
-        if (!this.emailValidator.isValidEmail(user.getEmail())) {
-            throw new UserException("Invalid User Email: " + user.getEmail(), 400);
-        }
+        this.validateUser(user);
 
         // Check if Email already exist for a different user
         Optional<User> userByEmail = this.findUserByEmail(user.getEmail());
@@ -74,13 +70,39 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    private void validateUser(User user) throws UserException {
+        if (this.checkUtil.isEmpty(user)) {
+            throw new UserException("Invalid User Object", 400);
+        }
+
+        if (!this.emailValidator.isValidEmail(user.getEmail())) {
+            throw new UserException("Invalid User Email: " + user.getEmail(), 400);
+        }
+    }
+
     /**
      * @param user
      * @return
      */
     @Override
-    public User update(User user) {
+    public User update(User user) throws UserException {
         logger.info("[{}] [{}] [update()] update user {}", Constants.SERVICE_NAME, Constants.INFO, user);
+        // Validate Email
+        this.validateUser(user);
+
+        // Check if Email already exist for a different user
+        Optional<User> userByEmail = this.findUserByEmail(user.getEmail());
+
+        Optional<User> userByRefNumber = this.findUserByRefNumber(user.getRefNumber());
+        if (userByRefNumber.isEmpty()) {
+            throw new UserException("Invalid ref number provided", 400);
+        }
+
+        if (userByEmail.isPresent() && !this.checkUtil.equals(userByRefNumber.get().getRefNumber(), userByEmail.get().getRefNumber())) {
+            throw new UserException("Fraudulent activities detected.!", 400);
+        }
+
+        this.builderUtil.buildUpdate(user, user.getZoneId());
         return this.userRepository.save(user);
     }
 

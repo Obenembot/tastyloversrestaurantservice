@@ -1,10 +1,10 @@
-package za.co.moson.restaurantservice;
+package za.co.moson;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestaurantserviceApplicationTests {
+class RestaurantServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,13 +1,13 @@
-package za.co.moson.restaurantservice;
+package za.co.moson;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestaurantserviceApplication {
+public class RestaurantServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RestaurantserviceApplication.class, args);
+		SpringApplication.run(RestaurantServiceApplication.class, args);
 	}
 
 }

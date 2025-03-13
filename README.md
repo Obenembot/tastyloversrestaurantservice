@@ -1,13 +1,21 @@
+### TODO List
+```angular2html
+1. Add Opening and closing days for restaurants
+2. Add Opening and closing times for restaurants
+
+3. Add Opening and closing days for menu/meals
+4. Add Opening and closing times for menu/meals
+
+Notification(Contact Mr. Solomon to use his api.
+5. Add WhatsApp/SMS functionality to send notify customers of available food
+6. Also to notify customers for available discount
+7. Notification for Account Creation and Update to the Restaurant owner
+
+
+
+```
+
 # Rest Service
-
-### Some Checks that are made
-
-1. Checks For fraudulent activities when updating a user. (By Id and Email)
-2. Email Validation to avoid Duplicates
-3. Audit History on User is kept (To See what happened on every user And Who made the changes)
-4. Also password is Based64 encoded
-5. Added a new api to update user password.
-6. Email Validation added as well to check for proper email format. 
 
 # Use Kubernetes to Build and Push to Docker Hub
 

@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "menus")
@@ -27,11 +28,14 @@ public class Menu implements Serializable {
     private String category;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     private Boolean available = true;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant; // Many menu items belong to one restaurant
+
+
+    // TODO: Add Discount
 }

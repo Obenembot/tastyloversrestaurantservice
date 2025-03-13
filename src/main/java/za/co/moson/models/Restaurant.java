@@ -26,9 +26,9 @@ public class Restaurant extends Address implements Serializable {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_refNumber", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user; // Many restaurants can belong to one user
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     private Set<Menu> menuItems; // A restaurant can have multiple menu items
 }

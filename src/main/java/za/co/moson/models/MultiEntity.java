@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 
-@Embeddable
+@MappedSuperclass
 public class MultiEntity {
 
     @Column(name = "updatedAt", nullable = false)

@@ -4,6 +4,7 @@ public class Constants {
     private Constants() {
     }
 
+    public static final String PREF = "TL";
     public static final String SERVICE_NAME = "RestaurantService";
     public static final String ERROR = "ERROR";
     public static final String INFO = "INFO";

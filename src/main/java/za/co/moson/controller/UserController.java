@@ -2,6 +2,7 @@ package za.co.moson.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import za.co.moson.exceptions.UserException;
 import za.co.moson.models.User;
 import za.co.moson.service.UserService;
 
@@ -16,12 +17,12 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) throws UserException {
         return ResponseEntity.ok(this.userService.create(user));
     }
 
     @PutMapping("/")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestBody User user) throws UserException {
         return ResponseEntity.ok(this.userService.update(user));
     }
 
@@ -35,9 +36,9 @@ public class UserController {
         return ResponseEntity.ok(this.userService.findUserByID(id).orElse(null));
     }
 
-//    @DeleteMapping("/")
-//    public ResponseEntity<ResponseEntity.BodyBuilder> deleteUser(@RequestBody User user) {
-//        this.userService.delete(user);
-//        return ResponseEntity.ok(ResponseEntity.accepted());
-//    }
+    @DeleteMapping("/")
+    public ResponseEntity<ResponseEntity.BodyBuilder> deleteUser(@RequestBody User user) {
+        this.userService.delete(user);
+        return ResponseEntity.ok(ResponseEntity.accepted());
+    }
 }

@@ -3,6 +3,9 @@ package za.co.moson.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "menus")
 @Getter
@@ -10,7 +13,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Menu {
+public class Menu implements Serializable {
+    @Serial
+    private final static long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

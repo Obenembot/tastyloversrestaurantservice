@@ -1,14 +1,12 @@
 package za.co.moson.models;
-
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 
-@Embeddable
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@MappedSuperclass
 public class Address {
 
     private String street;

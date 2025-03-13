@@ -3,6 +3,8 @@ package za.co.moson.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -12,7 +14,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class User extends MultiEntity implements Serializable {
+    @Serial
+    private final static long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +43,4 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Restaurant> restaurants; // A user can own multiple restaurants
 
-    @Embedded
-    private MultiEntity multiEntity; // Embedded location details
 }

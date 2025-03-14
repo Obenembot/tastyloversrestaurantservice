@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Menu implements Serializable {
+public class Menu extends MultiEntity implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;
 

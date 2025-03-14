@@ -24,7 +24,7 @@ public class RestaurantController {
 
     @PutMapping("/")
     public ResponseEntity<Restaurant> updateRestaurant(@RequestBody Restaurant restaurant) {
-        return ResponseEntity.ok(this.restaurantService.create(restaurant));
+        return ResponseEntity.ok(this.restaurantService.update(restaurant));
     }
 
     @DeleteMapping("/")

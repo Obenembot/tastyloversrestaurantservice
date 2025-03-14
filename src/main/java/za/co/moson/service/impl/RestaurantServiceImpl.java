@@ -5,10 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import za.co.moson.exceptions.RestaurantException;
 import za.co.moson.models.Restaurant;
 import za.co.moson.repos.RestaurantRepository;
 import za.co.moson.service.RestaurantService;
 import za.co.moson.utils.BuilderUtil;
+import za.co.moson.utils.CheckUtil;
 import za.co.moson.utils.Constants;
 
 @Service
@@ -16,16 +18,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     private static final Logger logger = LoggerFactory.getLogger(RestaurantServiceImpl.class);
     private final RestaurantRepository restaurantRepository;
     private final BuilderUtil builderUtil;
+    private final CheckUtil checkUtil;
 
     public RestaurantServiceImpl(final RestaurantRepository restaurantRepository,
-                                 final BuilderUtil builderUtil) {
+                                 final BuilderUtil builderUtil,
+                                 final CheckUtil checkUtil) {
         this.restaurantRepository = restaurantRepository;
         this.builderUtil = builderUtil;
+        this.checkUtil = checkUtil;
     }
 
     /**
      * @param restaurant
-     * @param zoneId
      * @return
      */
     @Override
@@ -40,9 +44,16 @@ public class RestaurantServiceImpl implements RestaurantService {
      * @return
      */
     @Override
-    public Restaurant update(Restaurant restaurant) {
+    public Restaurant update(Restaurant restaurant) throws RestaurantException {
         logger.info("[{}] [{}] [update()] update restaurant {}", Constants.SERVICE_NAME, Constants.INFO, restaurant);
-        this.builderUtil.buildUpdate(restaurant,  restaurant.getUser().getZoneId());
+        if (this.checkUtil.isEmpty(restaurant) || this.checkUtil.isEmpty(restaurant.getId())) {
+            throw new RestaurantException("Invalid Restaurant", 400);
+        }
+
+        if (this.checkUtil.isEmpty(restaurant.getUser())) {
+            throw new RestaurantException("Invalid User Object", 400);
+        }
+        this.builderUtil.buildUpdate(restaurant, restaurant.getUser().getZoneId());
         return this.restaurantRepository.save(restaurant);
     }
 

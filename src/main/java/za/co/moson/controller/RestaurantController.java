@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import za.co.moson.exceptions.RestaurantException;
 import za.co.moson.models.Restaurant;
 import za.co.moson.service.RestaurantService;
 
@@ -23,7 +24,7 @@ public class RestaurantController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Restaurant> updateRestaurant(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> updateRestaurant(@RequestBody Restaurant restaurant) throws RestaurantException {
         return ResponseEntity.ok(this.restaurantService.update(restaurant));
     }
 

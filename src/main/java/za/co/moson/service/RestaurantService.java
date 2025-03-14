@@ -2,13 +2,14 @@ package za.co.moson.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import za.co.moson.exceptions.RestaurantException;
 import za.co.moson.models.Restaurant;
 
 public interface RestaurantService {
 
     Restaurant create(Restaurant restaurant);
 
-    Restaurant update(Restaurant restaurant);
+    Restaurant update(Restaurant restaurant) throws RestaurantException;
 
     Restaurant delete(Restaurant restaurant);
 

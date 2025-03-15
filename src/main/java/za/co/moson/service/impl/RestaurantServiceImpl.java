@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import za.co.moson.exceptions.RestaurantException;
 import za.co.moson.models.Restaurant;
 import za.co.moson.repos.RestaurantRepository;
@@ -12,6 +13,8 @@ import za.co.moson.service.RestaurantService;
 import za.co.moson.utils.BuilderUtil;
 import za.co.moson.utils.CheckUtil;
 import za.co.moson.utils.Constants;
+
+import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -88,5 +91,26 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Page<Restaurant> findAllByUserId(String userId, Pageable pageable) {
         logger.info("[{}] [{}] [findAllByRefNumber()] find restaurant by userId {}", Constants.SERVICE_NAME, Constants.INFO, userId);
         return this.restaurantRepository.findAllByUserId(userId, pageable);
+    }
+
+    /**
+     * @param multipartFile
+     * @param restaurantId
+     * @return
+     */
+    @Override
+    public Restaurant update(MultipartFile multipartFile, Long restaurantId) throws RestaurantException {
+        Optional<Restaurant> restaurant = this.restaurantRepository.findById(restaurantId);
+        if (restaurant.isPresent()) {
+            try {
+                restaurant.get().setFileName(multipartFile.getOriginalFilename());
+                restaurant.get().setFileType(multipartFile.getContentType());
+                restaurant.get().setFileContent(multipartFile.getBytes());
+                return this.update(restaurant.get());
+            } catch (Exception e) {
+                logger.error("[{}] [{}] [update()] find restaurant by restaurantId {}", Constants.SERVICE_NAME, Constants.ERROR, restaurantId);
+            }
+        }
+        return null;
     }
 }

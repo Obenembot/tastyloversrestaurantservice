@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import za.co.moson.exceptions.RestaurantException;
 import za.co.moson.models.Restaurant;
 import za.co.moson.service.RestaurantService;
@@ -41,5 +42,10 @@ public class RestaurantController {
     @GetMapping("/user-id")
     public ResponseEntity<Page<Restaurant>> findAllByUserId(@RequestParam String userId, Pageable pageable) {
         return ResponseEntity.ok(this.restaurantService.findAllByUserId(userId, pageable));
+    }
+
+    @PutMapping("/update-image")
+    public ResponseEntity<Restaurant> updateRestaurant(@RequestParam(value = "file") MultipartFile multipartFile, @RequestParam Long restaurantId) throws RestaurantException {
+        return ResponseEntity.ok(this.restaurantService.update(multipartFile, restaurantId));
     }
 }

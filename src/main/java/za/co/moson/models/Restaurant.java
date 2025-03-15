@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
@@ -28,4 +27,10 @@ public class Restaurant extends Address implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // Many restaurants can belong to one user
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] fileContent;
+    private String fileName;
+    private String fileType;
 }

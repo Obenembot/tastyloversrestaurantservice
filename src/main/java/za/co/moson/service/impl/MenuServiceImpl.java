@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import za.co.moson.exceptions.MenuException;
+import za.co.moson.exceptions.RestaurantException;
 import za.co.moson.exceptions.UserException;
 import za.co.moson.models.Menu;
 import za.co.moson.repos.MenuRepository;
@@ -14,7 +16,7 @@ import za.co.moson.utils.BuilderUtil;
 import za.co.moson.utils.CheckUtil;
 import za.co.moson.utils.Constants;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -38,7 +40,7 @@ public class MenuServiceImpl implements MenuService {
      * @throws UserException
      */
     @Override
-    public Menu create(Menu menu, String zoneId) throws MenuException {
+    public Menu create(Menu menu) throws MenuException {
         logger.info("[{}] [{}] [create()] create menu {}", Constants.SERVICE_NAME, Constants.INFO, menu);
         if (!this.checkUtil.isEmpty(menu.getId())) {
             throw new MenuException("Invalid Menu Object", 400);
@@ -46,7 +48,7 @@ public class MenuServiceImpl implements MenuService {
         if (this.checkUtil.isEmpty(menu.getRestaurant())) {
             throw new MenuException("Invalid Restaurant Object", 400);
         }
-        this.builderUtil.buildCreate(menu, zoneId);
+        this.builderUtil.buildCreate(menu, menu.getRestaurant().getUser().getZoneId());
         return this.menuRepository.save(menu);
     }
 
@@ -56,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
      * @throws UserException
      */
     @Override
-    public Menu update(Menu menu, String zoneId) throws MenuException {
+    public Menu update(Menu menu) throws MenuException {
         logger.info("[{}] [{}] [update()] update menu {}", Constants.SERVICE_NAME, Constants.INFO, menu);
         if (this.checkUtil.isEmpty(menu.getId())) {
             throw new MenuException("Invalid Menu Object", 400);
@@ -64,7 +66,7 @@ public class MenuServiceImpl implements MenuService {
         if (this.checkUtil.isEmpty(menu.getRestaurant())) {
             throw new MenuException("Invalid Restaurant Object", 400);
         }
-        this.builderUtil.buildUpdate(menu, zoneId);
+        this.builderUtil.buildUpdate(menu, menu.getRestaurant().getUser().getZoneId());
         return this.menuRepository.save(menu);
     }
 
@@ -72,9 +74,9 @@ public class MenuServiceImpl implements MenuService {
      * @param menu
      */
     @Override
-    public void delete(Menu menu, String zoneId) {
+    public void delete(Menu menu) {
         logger.info("[{}] [{}] [delete()] delete menu {}", Constants.SERVICE_NAME, Constants.INFO, menu);
-        this.builderUtil.buildDelete(menu, zoneId);
+        this.builderUtil.buildDelete(menu, menu.getRestaurant().getUser().getZoneId());
         this.menuRepository.save(menu);
     }
 
@@ -85,5 +87,26 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Page<Menu> findByRestaurantId(Long restaurantId, Pageable pageable) {
         return this.menuRepository.findByRestaurantId(restaurantId, pageable);
+    }
+
+    /**
+     * @param multipartFile
+     * @param menuId
+     * @return
+     */
+    @Override
+    public Menu update(MultipartFile multipartFile, Long menuId) throws MenuException {
+        Optional<Menu> menu = this.menuRepository.findById(menuId);
+        if (menu.isPresent()) {
+            try {
+                menu.get().setFileName(multipartFile.getOriginalFilename());
+                menu.get().setFileType(multipartFile.getContentType());
+                menu.get().setFileContent(multipartFile.getBytes());
+                return this.update(menu.get());
+            } catch (Exception e) {
+                logger.error("[{}] [{}] [update()] find restaurant by restaurantId {}", Constants.SERVICE_NAME, Constants.ERROR, menuId);
+            }
+        }
+        return null;
     }
 }

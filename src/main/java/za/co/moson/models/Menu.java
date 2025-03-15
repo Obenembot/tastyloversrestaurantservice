@@ -36,6 +36,11 @@ public class Menu extends MultiEntity implements Serializable {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant; // Many menu items belong to one restaurant
 
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] fileContent;
+    private String fileName;
+    private String fileType;
 
     // TODO: Add Discount
 }

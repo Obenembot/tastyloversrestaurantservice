@@ -11,6 +11,7 @@ import za.co.moson.service.RestaurantService;
 
 @RestController
 @RequestMapping("/api/restaurants")
+@CrossOrigin(origins = {"https://tastylovers.vercel.app", "http://localhost:4200/"})
 public class RestaurantController {
 
     private final RestaurantService restaurantService;

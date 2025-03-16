@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import za.co.moson.exceptions.MenuException;
-import za.co.moson.exceptions.RestaurantException;
 import za.co.moson.exceptions.UserException;
 import za.co.moson.models.Menu;
 import za.co.moson.repos.MenuRepository;
@@ -86,7 +85,18 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public Page<Menu> findByRestaurantId(Long restaurantId, Pageable pageable) {
+        logger.info("[{}] [{}] [findByRestaurantId()] find Menu By RestaurantId {}", Constants.SERVICE_NAME, Constants.INFO, restaurantId);
         return this.menuRepository.findByRestaurantId(restaurantId, pageable);
+    }
+
+    /**
+     * @param pageable
+     * @return
+     */
+    @Override
+    public Page<Menu> findAllMenus(Pageable pageable) {
+        logger.info("[{}] [{}] [findByRestaurantId()] find All Menu By pageable {}", Constants.SERVICE_NAME, Constants.INFO, pageable);
+        return this.menuRepository.findAll(pageable);
     }
 
     /**

@@ -11,6 +11,7 @@ import za.co.moson.service.MenuService;
 
 @RestController
 @RequestMapping("/api/menus")
+@CrossOrigin(origins = {"https://tastylovers.vercel.app", "http://localhost:4200/"})
 public class MenuController {
 
 
@@ -35,6 +36,12 @@ public class MenuController {
         this.menuService.delete(menu);
         return ResponseEntity.accepted().build();
     }
+
+    @GetMapping("/")
+    ResponseEntity<Page<Menu>> findAllMenus(Pageable pageable) {
+        return ResponseEntity.ok(this.menuService.findAllMenus(pageable));
+    }
+
 
     @GetMapping("/{restaurantId}")
     ResponseEntity<Page<Menu>> findMenuByRestaurantId(@PathVariable Long restaurantId, Pageable pageable) {

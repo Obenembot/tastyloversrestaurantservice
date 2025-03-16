@@ -8,6 +8,7 @@ import za.co.moson.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = {"https://tastylovers.vercel.app", "http://localhost:4200/"})
 public class UserController {
 
     public final UserService userService;

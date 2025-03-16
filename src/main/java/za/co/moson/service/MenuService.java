@@ -15,6 +15,7 @@ public interface MenuService {
     void delete(Menu menu);
 
     Page<Menu> findByRestaurantId(Long restaurantId, Pageable pageable);
+    Page<Menu> findAllMenus( Pageable pageable);
 
     Menu update(MultipartFile multipartFile, Long menuId) throws MenuException;
 }

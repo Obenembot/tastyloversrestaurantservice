@@ -1,7 +1,10 @@
 package za.co.moson.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -27,10 +30,11 @@ public class Restaurant extends Address implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // Many restaurants can belong to one user
 
-    //@Lob
-    //@Column(columnDefinition = "LONGBLOB")
-    @Column(length = 10000000)
-    private String fileContent;
+    @Lob
+    @Column(columnDefinition = "BYTEA", nullable = true)
+    private byte[] fileContent;
+    @Column
     private String fileName;
+    @Column
     private String fileType;
 }

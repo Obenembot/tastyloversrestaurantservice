@@ -14,6 +14,8 @@ import za.co.moson.utils.BuilderUtil;
 import za.co.moson.utils.CheckUtil;
 import za.co.moson.utils.Constants;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
@@ -38,6 +40,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant create(Restaurant restaurant) {
         logger.info("[{}] [{}] [create()] create restaurant {}", Constants.SERVICE_NAME, Constants.INFO, restaurant);
+
+        try{
+            byte[] fileBytes = Files.readAllBytes(Paths.get("src/defaultImage.jpeg"));
+            restaurant.setFileContent(fileBytes);
+            restaurant.setFileType(null);
+            restaurant.setFileName(null);
+        }catch (Exception e){
+
+        }
+
         this.builderUtil.buildCreate(restaurant, restaurant.getUser().getZoneId());
         return this.restaurantRepository.save(restaurant);
     }
@@ -105,9 +117,8 @@ public class RestaurantServiceImpl implements RestaurantService {
             try {
                 restaurant.get().setFileName(multipartFile.getOriginalFilename());
                 restaurant.get().setFileType(multipartFile.getContentType());
-               String getBytes =  new String(multipartFile.getBytes());
-//                restaurant.get().setFileContent(multipartFile.getBytes());
-                restaurant.get().setFileContent(getBytes);
+                new String(multipartFile.getBytes());
+                restaurant.get().setFileContent(multipartFile.getBytes());
                 return this.update(restaurant.get());
             } catch (Exception e) {
                 logger.error("[{}] [{}] [update()] find restaurant by restaurantId {}", Constants.SERVICE_NAME, Constants.ERROR, restaurantId);

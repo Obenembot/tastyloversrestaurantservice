@@ -15,6 +15,8 @@ import za.co.moson.utils.BuilderUtil;
 import za.co.moson.utils.CheckUtil;
 import za.co.moson.utils.Constants;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
@@ -46,6 +48,14 @@ public class MenuServiceImpl implements MenuService {
         }
         if (this.checkUtil.isEmpty(menu.getRestaurant())) {
             throw new MenuException("Invalid Restaurant Object", 400);
+        }
+        try{
+            byte[] fileBytes = Files.readAllBytes(Paths.get("src/defaultImage.jpeg"));
+            menu.setFileContent(fileBytes);
+            menu.setFileType(null);
+            menu.setFileName(null);
+        }catch (Exception e){
+
         }
         this.builderUtil.buildCreate(menu, menu.getRestaurant().getUser().getZoneId());
         return this.menuRepository.save(menu);
@@ -111,9 +121,7 @@ public class MenuServiceImpl implements MenuService {
             try {
                 menu.get().setFileName(multipartFile.getOriginalFilename());
                 menu.get().setFileType(multipartFile.getContentType());
-                String getBytes =  new String(multipartFile.getBytes());
-//                menu.get().setFileContent(multipartFile.getBytes());
-                menu.get().setFileContent(getBytes);
+                menu.get().setFileContent(multipartFile.getBytes());
                 return this.update(menu.get());
             } catch (Exception e) {
                 logger.error("[{}] [{}] [update()] find restaurant by restaurantId {}", Constants.SERVICE_NAME, Constants.ERROR, menuId);

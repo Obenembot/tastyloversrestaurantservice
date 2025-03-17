@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Restaurant extends Address implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;

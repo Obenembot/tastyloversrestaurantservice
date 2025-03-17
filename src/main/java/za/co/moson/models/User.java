@@ -13,7 +13,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class User extends MultiEntity implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;

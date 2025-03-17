@@ -1,7 +1,10 @@
 package za.co.moson.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -35,9 +38,10 @@ public class Menu extends MultiEntity implements Serializable {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant; // Many menu items belong to one restaurant
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] fileContent;
+    //@Lob
+    //@Column(columnDefinition = "LONGBLOB")
+    @Column(length = 10000000)
+    private String fileContent;
     private String fileName;
     private String fileType;
 

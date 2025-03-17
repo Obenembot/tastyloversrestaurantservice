@@ -111,7 +111,9 @@ public class MenuServiceImpl implements MenuService {
             try {
                 menu.get().setFileName(multipartFile.getOriginalFilename());
                 menu.get().setFileType(multipartFile.getContentType());
-                menu.get().setFileContent(multipartFile.getBytes());
+                String getBytes =  new String(multipartFile.getBytes());
+//                menu.get().setFileContent(multipartFile.getBytes());
+                menu.get().setFileContent(getBytes);
                 return this.update(menu.get());
             } catch (Exception e) {
                 logger.error("[{}] [{}] [update()] find restaurant by restaurantId {}", Constants.SERVICE_NAME, Constants.ERROR, menuId);

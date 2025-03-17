@@ -1,4 +1,5 @@
 ### TODO List
+
 ```angular2html
 1. Add Opening and closing days for restaurants
 2. Add Opening and closing times for restaurants
@@ -17,16 +18,36 @@ Notification(Contact Mr. Solomon to use his api.
 
 # Rest Service
 
-# Use Kubernetes to Build and Push to Docker Hub
-
-### Build and Push Docker Image
+### Docker Login Or Logout
 
 ```bash
-docker build -t thembaembot/medicibeckend:latest .
 docker login
-docker push thembaembot/medicibeckend:latest
+docker logout
 ```
+
 #### Connect to Running Instance of mysql running locally: Favor@123
+
 ```bash
 mysql -h 127.0.0.1 -P 3306 -u root -p
+```
+
+## Docker Build and Push
+
+### Remember to change the version number
+
+```bash
+docker build --platform=linux/amd64 -t thembaembot/restaurantservice:1.0.0.1 .
+docker push thembaembot/restaurantservice:1.0.0.1
+```
+
+### Remove Old Container and Space
+
+```bash
+docker stop restaurantservice && docker rm restaurantservice
+```
+
+### Remember to change the version number
+
+```bash
+docker run -d --restart unless-stopped --name restaurantservice -p 10001:80 restaurantservice
 ```

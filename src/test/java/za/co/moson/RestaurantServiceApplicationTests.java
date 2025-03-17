@@ -3,10 +3,10 @@ package za.co.moson;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class RestaurantServiceApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 

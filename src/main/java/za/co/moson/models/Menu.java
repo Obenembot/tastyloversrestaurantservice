@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Menu extends MultiEntity implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;
